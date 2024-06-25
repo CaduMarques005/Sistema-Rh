@@ -13,8 +13,12 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+
+
     </head>
-    <body class="flex h-screen font-sans antialiased">
+    <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
 
@@ -30,10 +34,15 @@
 
 
             <!-- Page Content -->
-            <main>
-                @include('layouts.sidebar')
-                {{ $slot }}
-            </main>
+            <div class="flex w-full">
+                <aside class="w-1/4">
+                    @include('layouts.sidebar')
+                </aside>
+                <main class="w-3/4">
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     </body>
 </html>

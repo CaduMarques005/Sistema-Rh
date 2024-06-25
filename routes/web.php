@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
-use Tests\Fixtures\Controllers\UserController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RequestsController;
 
 Route::get('/', function () {
     if (app()->isLocal()) {
@@ -22,6 +23,12 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     #users region
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    #endRegion
+
+    # Requests Region
+
+    Route::get('/requests', [RequestsController::class, 'index'])->name('requests.index');
+    # End Region
 
 
     Route::get('/calendar', [CalendarController::class, 'calendar'])->name('calendar');
