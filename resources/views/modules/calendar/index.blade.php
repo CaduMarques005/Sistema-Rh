@@ -8,12 +8,24 @@
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
-                    height: '100%',
+                    height: '90%',
                     headerToolbar: {
                         left: 'prev,next',
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                    }
+                    },
+                    events: [
+                            @foreach($events as $event)
+                        {
+                            title: '{{ $event->user_name }}',
+                            start: '{{ $event->start_date }}T{{ $event->start_time }}',
+                            end: '{{ $event->end_date }}T{{ $event->end_time }}',
+                            @if ($event->draft == true)
+                            backgroundColor: 'red',
+                            @endif
+                        },
+                        @endforeach
+                    ]
                 });
                 calendar.render();
             });
@@ -22,7 +34,7 @@
 
 
 
-    <div id="calendar-container" class="flex flex-col items-center justify-center h-screen">
+    <div id="calendar-container" class="mt-9 flex flex-col items-center justify-center h-screen">
         <div id='calendar' class="w-full h-full max-w-6xl bg-white shadow-lg rounded-lg p-4"></div>
     </div>
 

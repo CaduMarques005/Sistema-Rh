@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('user_name');
             $table->date('start_date');
             $table->date('end_date');
             $table->time('start_time');

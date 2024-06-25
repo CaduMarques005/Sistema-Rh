@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use function Webmozart\Assert\Tests\StaticAnalysis\boolean;
 
 class Event extends Model
 {
@@ -12,6 +11,7 @@ class Event extends Model
 
     protected $fillable = [
         'user_id',
+        'user_name',
         'start_date',
         'end_date',
         'start_time',
@@ -23,7 +23,7 @@ class Event extends Model
     protected function casts(): array
     {
         return [
-            'draft' => 'boolean'
+            'draft' => 'boolean',
         ];
     }
 
@@ -32,5 +32,3 @@ class Event extends Model
         return $this->belongsTo(User::class);
     }
 }
-
-

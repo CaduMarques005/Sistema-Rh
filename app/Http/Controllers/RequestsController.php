@@ -21,7 +21,7 @@ class RequestsController extends Controller
     public function store(Request $request)
     {
 
-      $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'start_date' => 'required|date_format:m/d/Y',
             'end_date' => 'required|date_format:m/d/Y',
             'start_time' => 'required|date_format:H:i',
@@ -37,12 +37,9 @@ class RequestsController extends Controller
             'start_time' => $validatedData['start_time'],
             'end_time' => $validatedData['end_time'],
             'user_id' => Auth::id(),
+            'user_name' => Auth::user()->name,
         ]);
 
-
-
-
-
-        redirect('requests.create')->with('success', 'Request created successfully');
+        return back();
     }
 }
