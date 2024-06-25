@@ -5,6 +5,9 @@ import flowbitePlugin from 'flowbite/plugin';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+
+    darkMode: 'class',
+
     content: [
         "./node_modules/flowbite/**/*.js",
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
