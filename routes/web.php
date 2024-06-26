@@ -23,6 +23,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     //users region
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
     //endRegion
 

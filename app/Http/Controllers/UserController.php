@@ -23,4 +23,11 @@ class UserController extends Controller
     {
         return view('auth.register');
     }
+
+    public function destroy(User $user)
+    {
+
+        $user->delete();
+        return back();
+    }
 }
