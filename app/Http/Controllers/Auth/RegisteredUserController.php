@@ -36,17 +36,14 @@ class RegisteredUserController extends Controller
             'phone' => ['required', 'min:10'],
             'position' => ['required', 'string', 'max:255'],
             'hours' => ['required', 'numeric'],
-            'avatar' => ['nullable',],
+            'avatar' => ['nullable'],
         ]);
 
-
-            if(request()->hasFile('avatar')){
-                $avatar = $request->file('avatar');
-                $fileName = time().'-'.$avatar->getClientOriginalName();
-                $avatar->storeAs('avatars', $fileName, 'public');
-            }
-
-
+        if (request()->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $fileName = time().'-'.$avatar->getClientOriginalName();
+            $avatar->storeAs('avatars', $fileName, 'public');
+        }
 
         $user = User::create([
             'name' => $request->name,
