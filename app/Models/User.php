@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Event;
 
 class User extends Authenticatable
 {
@@ -19,6 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'hours',
+        'position',
+        'avatar',
         'password',
     ];
 
@@ -45,8 +50,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function requests()
+    public function events()
     {
-        return $this->hasMany(Request::class);
+        return $this->hasMany(Event::class);
     }
 }
