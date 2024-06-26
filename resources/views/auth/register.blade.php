@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="mt-24">
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
         @csrf
 
         <!-- Name -->
@@ -22,7 +22,7 @@
 
             <x-input-label for="position" :value="__('Position *')" />
             <input type="text" name="position"  value="{{ old('position') }}" id="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
+            <x-input-error :messages="$errors->get('position')" class="mt-2" />
         </div>
 
 
@@ -30,6 +30,7 @@
     <div class="mt-4">
         <x-input-label for="hours" :value="__('Hours Remaining *')" />
         <input type="number" name="hours" id="hours" value="{{ old('hours') }}" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ex: 360" required />
+        <x-input-error :messages="$errors->get('hours')" class="mt-2" />
     </div>
 
         <!-- Phone Number -->
@@ -44,6 +45,7 @@
                         </svg>
                     </div>
                     <input type="text" name="phone" value="{{ old('phone') }}" id="phone" aria-describedby="helper-text-explanation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  placeholder="123-456-7890" required />
+                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
 
 
@@ -77,6 +79,7 @@
 
             <x-input-label for="avatar" :value="__('Choose your profile picture')" />
             <input name="avatar" value="{{ old('avatar') }}" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="avatar" type="file">
+            <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
 
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
         </div>
