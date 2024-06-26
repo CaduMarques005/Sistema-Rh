@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,41 @@ class RequestsController extends Controller
             'user_id' => Auth::id(),
             'user_name' => Auth::user()->name,
         ]);
+
+        return route('dashboard');
+    }
+
+    public function show()
+    {
+        $events = Event::query()->where('draft', true)->get();
+        $usersIds = $events->pluck('user_id')->toArray();
+        $users = User::whereIn('id' , $usersIds)->get();
+        return view('modules.requests.show', compact('events', 'users'));
+
+    }
+
+    public function approve($event_id)
+    {
+        $event = Event::find($event_id);
+
+        if (!$event) {
+            return response()->json(['message' => 'Evento não encontrado'], 404);
+        }
+
+        $event->update(['draft' => false]);
+
+        return back();
+    }
+
+    public function denied($event_id)
+    {
+        $event = Event::find($event_id);
+
+        if (!$event) {
+            return redirect()->back(['message' => 'Event not found! :('], 404);
+        }
+
+        $event->delete();
 
         return back();
     }

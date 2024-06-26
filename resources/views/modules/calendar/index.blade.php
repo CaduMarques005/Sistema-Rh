@@ -20,9 +20,7 @@
                             title: '{{ $event->user_name }}',
                             start: '{{ $event->start_date }}T{{ $event->start_time }}',
                             end: '{{ $event->end_date }}T{{ $event->end_time }}',
-                            @if ($event->draft == true)
-                            backgroundColor: 'red',
-                            @endif
+
                         },
                         @endforeach
                     ]

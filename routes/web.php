@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/requests', [RequestsController::class, 'index'])->name('requests.index');
     Route::get('/requests', [RequestsController::class, 'create'])->name('requests.create');
     Route::post('/requests', [RequestsController::class, 'store'])->name('requests.store');
+    Route::get('/requests/list', [RequestsController::class, 'show'])->name('requests.show');
+    Route::post('/requests/list/{event_id}', [RequestsController::class, 'approve'])->name('approve');
+    Route::delete('/requests/list/{event_id}', [RequestsController::class, 'denied'])->name('denied');
     // End Region
 
     Route::get('/calendar', [CalendarController::class, 'calendar'])->name('calendar');
