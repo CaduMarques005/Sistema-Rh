@@ -10,10 +10,11 @@ class CalendarController extends Controller
     public function calendar()
     {
         $events = Event::query()
-            ->where('draft' , true)->get();
+            ->where('draft', true)->get();
         $usersIds = $events->pluck('user_id')->unique();
 
         $users = User::query()->whereIn('id', $usersIds)->get();
-        return view('modules.calendar.index', compact('events') , compact('users'));
+
+        return view('modules.calendar.index', compact('events'), compact('users'));
     }
 }
