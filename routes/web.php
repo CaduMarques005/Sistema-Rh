@@ -8,22 +8,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (app()->isLocal()) {
-        auth()->loginUsingId(1);
-        redirect('dashboard');
+        auth()->loginUsingId(2);
+        redirect('calendar.show');
     }
 
     return to_route('login');
 
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     //users region
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index'); //admin
+    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy'); //admin
 
     //endRegion
 
@@ -33,11 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/requests', [RequestsController::class, 'create'])->name('requests.create');
     Route::post('/requests', [RequestsController::class, 'store'])->name('requests.store');
     Route::get('/requests/list', [RequestsController::class, 'show'])->name('requests.show');
-    Route::post('/requests/list/{event_id}', [RequestsController::class, 'approve'])->name('approve');
-    Route::delete('/requests/list/{event_id}', [RequestsController::class, 'denied'])->name('denied');
+    Route::post('/requests/list/{event_id}', [RequestsController::class, 'approve'])->name('approve'); //admin
+    Route::delete('/requests/list/{event_id}', [RequestsController::class, 'denied'])->name('denied'); //admin
     // End Region
 
-    Route::get('/calendar', [CalendarController::class, 'calendar'])->name('calendar');
+    Route::get('/calendar', [CalendarController::class, 'calendar'])->name('calendar'); //admin
+    Route::get('/calendar/user', [CalendarController::class, 'userCalendar'])->name('calendar.show');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
