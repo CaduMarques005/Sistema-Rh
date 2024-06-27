@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('user_name');
             $table->date('start_date');
             $table->date('end_date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->boolean('draft')->default(true);
             $table->timestamps();
         });

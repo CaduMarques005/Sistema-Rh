@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\User;
 use App\Models\Event;
+use App\Models\User;
 
 if (! function_exists('example_helper')) {
     function userCount()
@@ -13,6 +13,5 @@ if (! function_exists('example_helper')) {
     {
         return Event::where('draft', true)->count();
     }
-
 
 }

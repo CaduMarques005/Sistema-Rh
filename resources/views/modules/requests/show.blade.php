@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    @if(\PHPUnit\Framework\isEmpty($events))
+    @if(!$events)
         <div class="mt-24">
 
             <h2 class="text-center font-semibold text-xl text-gray-800 leading-tight">

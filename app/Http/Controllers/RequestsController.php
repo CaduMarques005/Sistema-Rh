@@ -19,20 +19,39 @@ class RequestsController extends Controller
         return view('modules.requests.create');
     }
 
+    private function getWeekdaysDiff($start_date, $end_date)
+    {
+        $weekdays = 0;
+        $currentDate = clone $start_date;
+
+        while ($currentDate <= $end_date) {
+            if ($currentDate->format('N') < 6) { // 1 (segunda-feira) a 5 (sexta-feira)
+                $weekdays++;
+            }
+            $currentDate->modify('+1 day');
+        }
+
+        return $weekdays;
+    }
+
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'start_date' => 'required|date_format:m/d/Y',
             'end_date' => 'required|date_format:m/d/Y',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i',
+            'start_time' => 'nullable',
+            'end_time' => 'nullable',
         ]);
 
-        $start_date = \DateTime::createFromFormat('m/d/Y', $validatedData['start_date'])->format('Y-m-d');
-        $end_date = \DateTime::createFromFormat('m/d/Y', $validatedData['end_date'])->format('Y-m-d');
+        $start_date = \DateTime::createFromFormat('m/d/Y', $validatedData['start_date']);
+        $end_date = \DateTime::createFromFormat('m/d/Y', $validatedData['end_date']);
 
-        $request = Event::create([
+        $weekdays = $this->getWeekdaysDiff($start_date, $end_date);
+
+        $horasDescontadas = $weekdays * 8;
+        dd($horasDescontadas);
+
+        Event::create([
             'start_date' => $start_date,
             'end_date' => $end_date,
             'start_time' => $validatedData['start_time'],
@@ -41,7 +60,7 @@ class RequestsController extends Controller
             'user_name' => Auth::user()->name,
         ]);
 
-        return route('dashboard');
+        return route('modules.requests.create');
     }
 
     public function show()
@@ -57,7 +76,7 @@ class RequestsController extends Controller
     {
         $event = Event::find($event_id);
 
-        if (!$event) {
+        if (! $event) {
             return response()->json(['message' => 'Evento não encontrado'], 404);
         }
 
@@ -70,7 +89,7 @@ class RequestsController extends Controller
     {
         $event = Event::find($event_id);
 
-        if (!$event) {
+        if (! $event) {
             return redirect()->back(['message' => 'Event not found! :('], 404);
         }
 
