@@ -18,8 +18,8 @@
                             @foreach($events as $event)
                         {
                             title: '{{ $event->user_name }}',
-                            start: '{{ $event->start_date }}T{{ $event->start_time }}',
-                            end: '{{ $event->end_date }}T{{ $event->end_time }}',
+                            start: '{{ $event->start }}',
+                            end: '{{ $event->end }}',
 
                         },
                         @endforeach

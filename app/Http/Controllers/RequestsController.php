@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DateTime;
 
 class RequestsController extends Controller
 {
@@ -69,6 +69,14 @@ class RequestsController extends Controller
             'hours' => $totalHours,
         ]);
 
+        Event::create([
+            'user_id' => Auth::id(),
+            'user_name' => $user->name,
+            'start' => $start,
+            'end' => $end,
+            'draft' => true,
+        ]);
+
         // Recupera os eventos e os usuários associados
         $events = Event::query()
             ->where('draft', false)->get();
@@ -77,9 +85,6 @@ class RequestsController extends Controller
 
         return view('modules.calendar.index', compact('events', 'users'));
     }
-
-
-
 
     public function show()
     {
@@ -108,9 +113,39 @@ class RequestsController extends Controller
     {
         $event = Event::find($event_id);
 
-        if (! $event) {
-            return redirect()->back(['message' => 'Event not found! :('], 404);
+
+
+        $start = new DateTime($event->start);
+        $end = new DateTime($event->end);
+
+
+
+        $interval = $start->diff($end);
+
+
+        $hoursDifference = $interval->days * 8 + $interval->h;
+
+
+        if ($interval->i > 0) {
+            $hoursDifference += $interval->i / 60;
         }
+
+
+        $user = User::find(Auth::id());
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+
+        $totalHours = $user->hours + $hoursDifference;
+
+
+        $user->update(['hours' => $totalHours]);
+
+
+        $event->update(['draft' => false]);
+
 
         $event->delete();
 
