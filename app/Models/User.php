@@ -19,6 +19,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'hours',
+        'position',
+        'avatar',
         'password',
     ];
 
@@ -42,6 +46,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'admin' => 'boolean',
         ];
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
     }
 }
