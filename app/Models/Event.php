@@ -12,10 +12,8 @@ class Event extends Model
     protected $fillable = [
         'user_id',
         'user_name',
-        'start_date',
-        'end_date',
-        'start_time',
-        'end_time',
+        'start',
+        'end',
         'draft',
 
     ];

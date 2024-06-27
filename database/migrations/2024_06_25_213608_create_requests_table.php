@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('user_name');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->boolean('draft')->default(true);
             $table->timestamps();
         });
