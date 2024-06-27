@@ -71,9 +71,9 @@ class RequestsController extends Controller
         ]);
 
         $events = Event::query()->where('user_id', Auth::id())
-            ->where('draft' , false)->get();
+            ->where('draft', false)->get();
 
-        return view('modules.calendar.show', compact('events'),);
+        return view('modules.calendar.show', compact('events'));
 
     }
 

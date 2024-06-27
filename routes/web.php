@@ -7,36 +7,45 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    if (app()->isLocal()) {
-        auth()->loginUsingId(2);
-        redirect('calendar.show');
+    if(app()->isLocal()){
+        return to_route('calendar.show');
     }
+        return to_route('login');
 
-    return to_route('login');
+
+
 
 });
 
 
 
 Route::middleware('auth')->group(function () {
-    //users region
-    Route::get('/users', [UserController::class, 'index'])->name('users.index'); //admin
-    Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy'); //admin
 
-    //endRegion
+    Route::middleware('admin')->group(function () {
+        Route::get('/users', [UserController::class, 'index'])->name('users.index'); //admin
+        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('users.destroy'); //admin
+
+        Route::get('/requests/list', [RequestsController::class, 'show'])->name('requests.show');
+        Route::post('/requests/list/{event_id}', [RequestsController::class, 'approve'])->name('approve'); //admin
+        Route::delete('/requests/list/{event_id}', [RequestsController::class, 'denied'])->name('denied'); //admin
+
+        Route::get('/calendar', [CalendarController::class, 'calendar'])->name('calendar'); //admin
+    });
+
+
+
 
     // Requests Region
 
     Route::get('/requests', [RequestsController::class, 'index'])->name('requests.index');
     Route::get('/requests', [RequestsController::class, 'create'])->name('requests.create');
     Route::post('/requests', [RequestsController::class, 'store'])->name('requests.store');
-    Route::get('/requests/list', [RequestsController::class, 'show'])->name('requests.show');
-    Route::post('/requests/list/{event_id}', [RequestsController::class, 'approve'])->name('approve'); //admin
-    Route::delete('/requests/list/{event_id}', [RequestsController::class, 'denied'])->name('denied'); //admin
+    Route::get('/calendar/user', [CalendarController::class, 'userCalendar'])->name('calendar.show');
+
     // End Region
 
-    Route::get('/calendar', [CalendarController::class, 'calendar'])->name('calendar'); //admin
-    Route::get('/calendar/user', [CalendarController::class, 'userCalendar'])->name('calendar.show');
+
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
