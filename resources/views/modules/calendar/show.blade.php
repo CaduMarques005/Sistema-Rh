@@ -27,9 +27,7 @@
             });
             calendar.render();
         });
-
     </script>
-
 
 
     <div id="calendar-container" class="mt-9 flex flex-col items-center justify-center h-screen">

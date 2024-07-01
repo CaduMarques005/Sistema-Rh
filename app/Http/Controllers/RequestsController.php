@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Pedido_Enviado;
 use App\Models\Event;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class RequestsController extends Controller
 {
@@ -57,23 +60,31 @@ class RequestsController extends Controller
         $userHours = $user->hours;
 
         $totalHours = $userHours - $hoursDifference;
+        if($user->hours < $hoursDifference) {
+            return back()->with('denied', 'You dont have enough hours to request a vacation! :)');
+        } else {
 
-        $user->update([
-            'hours' => $totalHours,
-        ]);
+            $user->update([
+                'hours' => $totalHours,
+            ]);
 
-        Event::create([
-            'user_id' => Auth::id(),
-            'user_name' => $user->name,
-            'start' => $start,
-            'end' => $end,
-            'draft' => true,
-        ]);
+            Event::create([
+                'user_id' => Auth::id(),
+                'user_name' => $user->name,
+                'start' => $start,
+                'end' => $end,
+                'draft' => true,
+            ]);
 
-        $events = Event::query()->where('user_id', Auth::id())
-            ->where('draft', false)->get();
+            $events = Event::query()->where('user_id', Auth::id())
+                ->where('draft', false)->get();
 
-        return view('modules.calendar.show', compact('events'));
+
+
+            return back()->with('approve', 'Request sent successfully! :)');
+        }
+
+
 
     }
 
@@ -97,7 +108,7 @@ class RequestsController extends Controller
 
         $event->update(['draft' => false]);
 
-        return back();
+        return back()->with('approve' , 'Request approved successfully! :)');
     }
 
     public function denied($event_id)
@@ -117,9 +128,7 @@ class RequestsController extends Controller
 
         $user = User::find(Auth::id());
 
-        if (! $user) {
-            return response()->json(['message' => 'Usuário não encontrado'], 404);
-        }
+
 
         $totalHours = $user->hours + $hoursDifference;
 
@@ -129,6 +138,6 @@ class RequestsController extends Controller
 
         $event->delete();
 
-        return back();
+        return back()->with('denied' , 'Request denied successfully! :)');
     }
 }
