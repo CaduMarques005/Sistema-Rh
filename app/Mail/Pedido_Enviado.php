@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -31,7 +30,6 @@ class Pedido_Enviado extends Mailable
 
             from: new Address($this->data['fromEmail'], $this->data['fromName']),
             subject: $this->data['subject'],
-
 
         );
     }

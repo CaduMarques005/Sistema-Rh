@@ -59,6 +59,6 @@ class RegisteredUserController extends Controller
 
         // Auth::login($user);
 
-        return redirect(route('users.index', absolute: false))->with('message' , 'User registered with successfully! :)');
+        return redirect(route('users.index', absolute: false))->with('message', 'User registered with successfully! :)');
     }
 }

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Pedido_Enviado;
 use App\Models\Event;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class RequestsController extends Controller
 {
@@ -60,7 +57,7 @@ class RequestsController extends Controller
         $userHours = $user->hours;
 
         $totalHours = $userHours - $hoursDifference;
-        if($user->hours < $hoursDifference) {
+        if ($user->hours < $hoursDifference) {
             return back()->with('denied', 'You dont have enough hours to request a vacation! :)');
         } else {
 
@@ -79,12 +76,8 @@ class RequestsController extends Controller
             $events = Event::query()->where('user_id', Auth::id())
                 ->where('draft', false)->get();
 
-
-
             return back()->with('approve', 'Request sent successfully! :)');
         }
-
-
 
     }
 
@@ -108,7 +101,7 @@ class RequestsController extends Controller
 
         $event->update(['draft' => false]);
 
-        return back()->with('approve' , 'Request approved successfully! :)');
+        return back()->with('approve', 'Request approved successfully! :)');
     }
 
     public function denied($event_id)
@@ -128,8 +121,6 @@ class RequestsController extends Controller
 
         $user = User::find(Auth::id());
 
-
-
         $totalHours = $user->hours + $hoursDifference;
 
         $user->update(['hours' => $totalHours]);
@@ -138,6 +129,6 @@ class RequestsController extends Controller
 
         $event->delete();
 
-        return back()->with('denied' , 'Request denied successfully! :)');
+        return back()->with('denied', 'Request denied successfully! :)');
     }
 }

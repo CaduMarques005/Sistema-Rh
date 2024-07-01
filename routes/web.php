@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     // Requests Region
     Route::get('/requests/all', [UserRequests::class, 'all'])->name('requests.all');
     Route::get('/requests/approved', [UserRequests::class, 'approved'])->name('requests.approved');
-    Route::get('/requests/denied', [UserRequests::class, 'denied'])->name('requests.denied');
+    Route::get('/requests/pending', [UserRequests::class, 'pending'])->name('requests.pending');
 
     Route::get('/requests', [RequestsController::class, 'index'])->name('requests.index');
     Route::get('/requests', [RequestsController::class, 'create'])->name('requests.create');
