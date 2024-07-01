@@ -42,48 +42,43 @@ class RequestsController extends Controller
             'end' => 'required|date_format:Y-m-d H:i',
         ]);
 
-        // Converte as strings para objetos DateTime
         $start = \DateTime::createFromFormat('Y-m-d H:i', $validatedData['start']);
         $end = \DateTime::createFromFormat('Y-m-d H:i', $validatedData['end']);
 
-        // Calcula a diferença entre as datas
         $interval = $start->diff($end);
 
-        // Conta cada dia como 8 horas
         $hoursDifference = $interval->days * 8 + $interval->h;
 
-        // Se houver minutos na diferença, os adiciona como uma fração de hora
         if ($interval->i > 0) {
             $hoursDifference += $interval->i / 60;
         }
 
-        // Recupera o usuário atual
         $user = User::where('id', Auth::id())->first();
         $userHours = $user->hours;
 
-        // Calcula o total de horas restantes
         $totalHours = $userHours - $hoursDifference;
+        if ($user->hours < $hoursDifference) {
+            return back()->with('denied', 'You dont have enough hours to request a vacation! :)');
+        } else {
 
-        // Atualiza as horas do usuário
-        $user->update([
-            'hours' => $totalHours,
-        ]);
+            $user->update([
+                'hours' => $totalHours,
+            ]);
 
-        Event::create([
-            'user_id' => Auth::id(),
-            'user_name' => $user->name,
-            'start' => $start,
-            'end' => $end,
-            'draft' => true,
-        ]);
+            Event::create([
+                'user_id' => Auth::id(),
+                'user_name' => $user->name,
+                'start' => $start,
+                'end' => $end,
+                'draft' => true,
+            ]);
 
-        // Recupera os eventos e os usuários associados
-        $events = Event::query()
-            ->where('draft', false)->get();
-        $usersIds = $events->pluck('user_id')->unique();
-        $users = User::query()->whereIn('id', $usersIds)->get();
+            $events = Event::query()->where('user_id', Auth::id())
+                ->where('draft', false)->get();
 
-        return view('modules.calendar.index', compact('events', 'users'));
+            return back()->with('approve', 'Request sent successfully! :)');
+        }
+
     }
 
     public function show()
@@ -106,49 +101,34 @@ class RequestsController extends Controller
 
         $event->update(['draft' => false]);
 
-        return back();
+        return back()->with('approve', 'Request approved successfully! :)');
     }
 
     public function denied($event_id)
     {
         $event = Event::find($event_id);
 
-
-
         $start = new DateTime($event->start);
         $end = new DateTime($event->end);
 
-
-
         $interval = $start->diff($end);
 
-
         $hoursDifference = $interval->days * 8 + $interval->h;
-
 
         if ($interval->i > 0) {
             $hoursDifference += $interval->i / 60;
         }
 
-
         $user = User::find(Auth::id());
-
-        if (!$user) {
-            return response()->json(['message' => 'Usuário não encontrado'], 404);
-        }
-
 
         $totalHours = $user->hours + $hoursDifference;
 
-
         $user->update(['hours' => $totalHours]);
-
 
         $event->update(['draft' => false]);
 
-
         $event->delete();
 
-        return back();
+        return back()->with('denied', 'Request denied successfully! :)');
     }
 }

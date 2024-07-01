@@ -14,7 +14,7 @@ class UserController extends Controller
             ->when(request('search'), function (Builder $query) {
                 $query->where('name', 'like', '%'.request('search').'%');
             })
-            ->paginate(5),
+            ->paginate(5)->withQueryString(),
 
         ]);
     }

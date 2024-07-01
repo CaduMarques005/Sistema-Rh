@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'avatar' => $fileName,
+            'avatar' => $fileName ?? null,
             'phone' => $request->phone,
             'hours' => $request->hours,
             'position' => $request->position,
@@ -59,6 +59,6 @@ class RegisteredUserController extends Controller
 
         // Auth::login($user);
 
-        return redirect(route('users.index', absolute: false));
+        return redirect(route('users.index', absolute: false))->with('message', 'User registered with successfully! :)');
     }
 }
