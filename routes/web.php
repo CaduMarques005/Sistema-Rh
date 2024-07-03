@@ -1,5 +1,6 @@
 <?php
-
+use App\Livewire\Counter;
+use App\Livewire\Users;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestsController;
@@ -15,6 +16,9 @@ Route::get('/', function () {
     return to_route('login');
 
 });
+
+
+Route::get('/livewire', Users::class)->name('counter');
 
 Route::middleware('auth')->group(function () {
 

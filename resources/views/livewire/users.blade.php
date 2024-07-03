@@ -1,4 +1,5 @@
-<x-app-layout>
+<div>
+<x-app-layout xmlns:livewire="http://www.w3.org/1999/html">
 
 
 
@@ -56,7 +57,6 @@
                         </svg>
                     </div>
                     <input type="text" wire:model.live="search" name="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users..."  />
-                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                 </div>
             </form>
 
@@ -85,44 +85,47 @@
             </thead>
             <tbody>
             @foreach($users as $user)
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="{{ $user->name }}">
-                    <div class="ps-3">
+                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                        <img class="w-10 h-10 rounded-full" src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="{{ $user->name }}">
+                        <div class="ps-3">
 
                             <div class="text-base font-semibold">{{$user->name}}</div>
                             <div class="font-normal text-gray-500">{{$user->email}}</div>
-                    </div>
-                </th>
-                <td wire:key="" class="px-6 py-4">
-                    {{ $user->phone }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $user->position }}
-                </td>
-                <td class="text-center px-6 py-4">
+                        </div>
+                    </th>
+                    <td wire:key="" class="px-6 py-4">
+                        {{ $user->phone }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $user->position }}
+                    </td>
+                    <td class="text-center px-6 py-4">
                         {{ $user->hours }}
-                </td>
-                <td class="px-6 py-4">
-                    <form method="POST" action="{{route('users.destroy', $user)}}">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete User</button>
-                    </form>
-                </td>
-            </tr>
+                    </td>
+                    <td class="px-6 py-4">
+                        <form method="POST" action="{{route('users.destroy', $user)}}">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete User</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
 
             </tbody>
         </table>
-                    <div class="mt-3 mr-5 ml-5">
-                        {{ $users }}
-                    </div>
+            @if(true)
+        <div class="mt-3 mr-5 ml-5">
+            {{ $users }}
+        </div>
+                @endif
     </div>
 
 
 </x-app-layout>
+</div>
 
 
 
