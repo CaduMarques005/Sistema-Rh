@@ -1,11 +1,11 @@
 <?php
-use App\Livewire\Counter;
-use App\Livewire\Users;
+
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRequests;
+use App\Livewire\Users;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,7 +16,6 @@ Route::get('/', function () {
     return to_route('login');
 
 });
-
 
 Route::get('/livewire', Users::class)->name('counter');
 
