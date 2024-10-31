@@ -1,7 +1,7 @@
 <x-app-layout>
 
-    @if(!$events)
-        <div class="mt-24">
+    @if($events->isEmpty())
+        <div class="flex mt-24 bg-white w-screen-20 h-20 rounded-md items-center justify-center">
 
             <h2 class="text-center font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('There aren´t any request at the moment! :)') }}

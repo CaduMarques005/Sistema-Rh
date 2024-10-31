@@ -36,7 +36,7 @@ class UserRequests extends Controller
     {
         $events = DB::table('events')
             ->where('user_id', Auth::user()->id)
-            ->where('draft', true)
+            ->where('draft', false)
             ->paginate(8);
 
         $users = DB::table('users')->where('id', auth()->id())->get();

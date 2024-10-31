@@ -1,7 +1,7 @@
 <x-app-layout>
 
-    @if(!$events)
-        <div class="mt-24">
+    @if($events->isEmpty())
+        <div class="flex mt-24 bg-white w-screen-20 h-20 rounded-md items-center justify-center">
 
             <h2 class="text-center font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('There aren´t any request at the moment! :)') }}
@@ -52,7 +52,7 @@
 
         <div class="mt-24">
             <button id="dropdownBottomButton" data-dropdown-toggle="dropdownBottom" data-dropdown-placement="bottom" class="me-3 mb-3 md:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                Select Status
+                Pending
                 <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                 </svg>
@@ -68,7 +68,7 @@
                         <a href="{{ route('requests.approved') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Approved</a>
                     </li>
                     <li>
-                        <a href="{{ route('requests.pending') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Denied</a>
+                        <a href="{{ route('requests.pending') }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Pending</a>
                     </li>
 
                 </ul>

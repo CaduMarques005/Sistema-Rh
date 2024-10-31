@@ -83,6 +83,7 @@ class RequestsController extends Controller
 
     public function show()
     {
+
         $events = Event::query()->where('draft', true)->get();
         $usersIds = $events->pluck('user_id')->toArray();
         $users = User::whereIn('id', $usersIds)->get();

@@ -45,11 +45,13 @@
 
 
             <!-- Page Content -->
-            <div class="flex w-full">
-                <aside class="w-1/4">
+            <div class="flex">
+                <div class="w-1/6">
                     @include('layouts.sidebar')
-                </aside>
-                <main class="w-3/4">
+                </div>
+
+
+                <main class="w-5/6">
 
                     {{ $slot }}
                 </main>
